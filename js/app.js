@@ -6,7 +6,7 @@
     app.controller('TodoController', ['$scope', function($scope) {
         // 任务一：展示列表功能
         // 思路：
-        // 		创建一个数据列表，然后通过 ng-repeat 指令将数据进行展示
+        //      创建一个数据列表，然后通过 ng-repeat 指令将数据进行展示
         $scope.todolist = [
             { id: 1, name: '张三', isCompleted: false },
             { id: 2, name: '李四', isCompleted: true },
@@ -16,7 +16,7 @@
         ];
         // 任务二：
         // 思路：
-        // 		获取数据添加到todolist
+        //      获取数据添加到todolist
         $scope.newTask = '';
         $scope.add = function() {
                 var id = 0;
@@ -76,8 +76,8 @@
             },
             // 任务六 Clear completed删除已完成的任务
             // 思路 将状态为true的列表删除，
-            // 		只需要将未完成的任务取出来，放到temp数组中，最后，再替换todoList
-            // 		
+            //      只需要将未完成的任务取出来，放到temp数组中，最后，再替换todoList
+            //      
             $scope.clearCompleted = function() {
                 var arr = [];
                 for (var i = 0; i < $scope.todolist.length; i++) {
@@ -86,10 +86,11 @@
                         arr.push(temp);
                     };
                 };
-                $scope.todolist=arr;
+                $scope.todolist = arr;
             },
-            $scope.isShow=function(){
-                 for (var i = 0; i < $scope.todolist.length; i++) {
+            // 任务七  Clear completed的显示与隐藏
+            $scope.isShow = function() {
+                for (var i = 0; i < $scope.todolist.length; i++) {
                     var temp = $scope.todolist[i];
                     if (temp.isCompleted) {
                         return true;
@@ -97,9 +98,22 @@
                 };
                 return false;
             }
+            // 任务八 显示未完成的任务数量
+        $scope.getCount = function() {
+            var count = 0;
+            for (var i = 0; i < $scope.todolist.length; i++) {
+                var temp = $scope.todolist[i];
+                if (!temp.isCompleted) {
+                    count++;
+                };
+            };
+            return count;
+        }
+
+
 
 
     }])
 
-    //将angular传入	
+    //将angular传入    
 })(angular);
