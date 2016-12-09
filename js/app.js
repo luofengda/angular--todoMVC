@@ -44,9 +44,16 @@
 					$scope.todolist.splice(i,1);	
 					return;		
 				};
-
 			};
-
+		},
+		// 任务四
+		// 双击修改列表数据信息
+		$scope.updateId=-1;
+		$scope.update=function(id){
+			$scope.updateId=id;
+		},
+		$scope.save=function(){
+			$scope.updateId=-1;
 		}
 	}])
 
