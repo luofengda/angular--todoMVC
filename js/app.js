@@ -37,14 +37,17 @@
 		},
 		// 任务三
 		//删除一条任务 
-		$scope.remove=function(id){
-			for (var i = 0; i < $scope.todolist.length; i++) {
-				var  temp=$scope.todolist[i];
-				if (temp.id===id) {
-					$scope.todolist.splice(i,1);	
-					return;		
-				};
-			};
+		$scope.delId=-100;
+		$scope.remove=function(delId){
+			// for (var i = 0; i < $scope.todolist.length; i++) {
+			// 	var  temp=$scope.todolist[i];
+			// 	if (temp.id===id) {
+			// 		$scope.todolist.splice(i,1);	
+			// 		return;		
+			// 	};
+			// };
+			console.log(delId);
+			this.todolist.splice(delId,1);
 		},
 		// 任务四
 		// 双击修改列表数据信息

@@ -30,7 +30,7 @@
                     <div class="view">
                         <input class="toggle" type="checkbox" ng-model="item.isCompleted">
                         <label ng-dblclick="update(item.id)">{{item.name}}</label>
-                        <button class="destroy" ng-click="remove(item.id)"></button>
+                        <button class="destroy" ng-click="remove(delId=$index)"></button>
                     </div>
                     <form ng-submit="save()">
                           <input class="edit" ng-model="item.name">  
