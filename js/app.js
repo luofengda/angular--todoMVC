@@ -37,17 +37,15 @@
 		},
 		// 任务三
 		//删除一条任务 
-		$scope.delId=-100;
-		$scope.remove=function(delId){
-			// for (var i = 0; i < $scope.todolist.length; i++) {
-			// 	var  temp=$scope.todolist[i];
-			// 	if (temp.id===id) {
-			// 		$scope.todolist.splice(i,1);	
-			// 		return;		
-			// 	};
-			// };
-			console.log(delId);
-			this.todolist.splice(delId,1);
+
+		$scope.remove=function(id){
+			for (var i = 0; i < $scope.todolist.length; i++) {
+				var  temp=$scope.todolist[i];
+				if (temp.id===id) {
+					$scope.todolist.splice(i,1);	
+					return;		
+				};
+			};
 		},
 		// 任务四
 		// 双击修改列表数据信息
@@ -57,6 +55,24 @@
 		},
 		$scope.save=function(){
 			$scope.updateId=-1;
+		},
+		// 任务五 两种解决方法
+		//  1 绑定单击事件
+		//  2 使用$watch
+		$scope.isCheckeAll=false;
+		$scope.$watch("isCheckeAll",function(newValue,oldVlue){
+			if (newValue===oldVlue) {
+				return;
+			};
+			for (var i = 0; i < $scope.todolist.length; i++) {
+				$scope.todolist[i].isCompleted=$scope.isCheckeAll;
+			};
+
+		});
+		$scope.selectAll=function(){
+			for (var i = 0; i < $scope.todolist.length; i++) {
+				$scope.todolist[i].isCompleted=$scope.isCheckeAll;
+			};
 		}
 	}])
 
