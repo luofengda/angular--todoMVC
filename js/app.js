@@ -34,6 +34,19 @@
 			$scope.todolist.push({id:id,name:$scope.newTask,isCompleted:false});
 			$scope.newTask='';
 			console.log(id);
+		},
+		// 任务三
+		//删除一条任务 
+		$scope.remove=function(id){
+			for (var i = 0; i < $scope.todolist.length; i++) {
+				var  temp=$scope.todolist[i];
+				if (temp.id===id) {
+					$scope.todolist.splice(i,1);	
+					return;		
+				};
+
+			};
+
 		}
 	}])
 
