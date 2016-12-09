@@ -73,7 +73,16 @@
 			for (var i = 0; i < $scope.todolist.length; i++) {
 				$scope.todolist[i].isCompleted=$scope.isCheckeAll;
 			};
+		},
+		// 任务六 清空已完成的任务
+		// 思路 将状态为true的列表删除，
+		// 		
+		$scope.clearCompleted=function(){
+			if ($scope.todolist.isCompleted) {
+				
+			};
 		}
+		
 	}])
 
 //将angular传入	
