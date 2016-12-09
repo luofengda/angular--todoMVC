@@ -74,7 +74,7 @@
                     $scope.todolist[i].isCompleted = $scope.isCheckeAll;
                 };
             },
-            // 任务六 删除已完成的任务
+            // 任务六 Clear completed删除已完成的任务
             // 思路 将状态为true的列表删除，
             // 		只需要将未完成的任务取出来，放到temp数组中，最后，再替换todoList
             // 		
@@ -87,7 +87,17 @@
                     };
                 };
                 $scope.todolist=arr;
+            },
+            $scope.isShow=function(){
+                 for (var i = 0; i < $scope.todolist.length; i++) {
+                    var temp = $scope.todolist[i];
+                    if (temp.isCompleted) {
+                        return true;
+                    };
+                };
+                return false;
             }
+
 
     }])
 
