@@ -2,14 +2,14 @@
  * @Author: luofengda
  * @Date:   2016-12-10 12:11:45
  * @Last Modified by:   luofengda
- * @Last Modified time: 2016-12-10 15:44:41
+ * @Last Modified time: 2016-12-10 16:30:53
  */
 
 (function(angular) {
     // 模型中的 function 是构造函数
     angular.module('todoApp.Server', []).service('TodoServer', ['$window', function($window) {
         // this.test=function(){
-        // 	console.log("测试一下服务器里面的方法");
+        //  console.log("测试一下服务器里面的方法");
         // }
         // ng没有提供localStorage ，通过$window这个服务获取
         var storage = $window.localStorage;
@@ -23,12 +23,16 @@
         this.saveData = function() {
             storage.setItem('todo', JSON.stringify(todolist));
         };
-        // 
+
+
+
         // 暴露数据 用来获取数据的方法
         //查询数据的方法
         this.getData = function() {
             return todolist;
         };
+
+
         // 新增数据的方法
         this.addData = function(newTask) {
             var id = 0;
@@ -43,6 +47,9 @@
             todolist.push({ id: id, name: newTask, isCompleted: false });
             this.saveData();
         };
+
+
+
         // 删除数据的方法
         this.removeData = function(id) {
             for (var i = 0; i < todolist.length; i++) {
@@ -54,7 +61,31 @@
                     return;
                 };
             };
+        };
+
+
+
+        // 切换总按钮点击切换的状态
+        this.selectAll = function(isCheckeAll) {
+            for (var i = 0; i < todolist.length; i++) {
+                todolist[i].isCompleted = isCheckeAll;
+            }
+            this.saveData();
+        };
+
+        // Clear completed删除已完成的任务
+        this.clearCompleted=function(){
+             var arr = [];
+            for (var i = 0; i < todolist.length; i++) {
+                var temp = todolist[i];
+                if (temp.isCompleted === false) {
+                    arr.push(temp);
+                };
+            };
+            todolist = arr;
+            this.saveData();
         }
+
 
 
     }])

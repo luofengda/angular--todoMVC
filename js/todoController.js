@@ -2,7 +2,7 @@
  * @Author: luofengda
  * @Date:   2016-12-10 12:11:30
  * @Last Modified by:   luofengda
- * @Last Modified time: 2016-12-10 15:58:50
+ * @Last Modified time: 2016-12-10 16:32:19
  */
 
 (function(angular) {
@@ -47,25 +47,18 @@
             $scope.updateId = -1;
             TodoServer.saveData();
         };
-        // 任务五 两种解决方法
+
+        // 任务五 切换总任务状态改变 两种解决方法
         //  1 绑定单击事件
         //  2 使用$watch
         $scope.isCheckeAll = false;
-        // $scope.$watch("isCheckeAll", function(newValue, oldVlue) {
-        //     if (newValue === oldVlue) {
-        //         return;
-        //     };
-        //     for (var i = 0; i < $scope.todolist.length; i++) {
-        //         $scope.todolist[i].isCompleted = $scope.isCheckeAll;
-        //     };
-        // });
         $scope.selectAll = function() {
-            console.log($scope.isCheckeAll);
-            for (var i = 0; i < $scope.todolist.length; i++) {
-                $scope.todolist[i].isCompleted = $scope.isCheckeAll;
-            }
+          TodoServer.selectAll($scope.isCheckeAll );
         };
-        // 优化：同步了单个点击的时候 总按钮的是否被选中的bug
+
+
+        
+        // // 优化：同步了单个点击的时候 总按钮的是否被选中的bug
         $scope.isCheckbox = function() {
             for (var i = 0; i < $scope.todolist.length; i++) {
                 if (!$scope.todolist[i].isCompleted) {
@@ -84,25 +77,19 @@
         //      只需要将未完成的任务取出来，放到temp数组中，最后，再替换todoList
         //      
         $scope.clearCompleted = function() {
-                var arr = [];
-                for (var i = 0; i < $scope.todolist.length; i++) {
-                    var temp = $scope.todolist[i];
-                    if (temp.isCompleted === false) {
-                        arr.push(temp);
-                    };
+           TodoServer.clearCompleted();
+            $scope.todolist=TodoServer.getData();
+        };
+        // 任务七  Clear completed的显示与隐藏
+        $scope.isShow = function() {
+            for (var i = 0; i < $scope.todolist.length; i++) {
+                var temp = $scope.todolist[i];
+                if (temp.isCompleted) {
+                    return true;
                 };
-                $scope.todolist = arr;
-            },
-            // 任务七  Clear completed的显示与隐藏
-            $scope.isShow = function() {
-                for (var i = 0; i < $scope.todolist.length; i++) {
-                    var temp = $scope.todolist[i];
-                    if (temp.isCompleted) {
-                        return true;
-                    };
-                };
-                return false;
             };
+            return false;
+        };
         // 任务八 显示未完成的任务数量
         $scope.getCount = function() {
             var count = 0;
