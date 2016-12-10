@@ -2,7 +2,7 @@
  * @Author: luofengda
  * @Date:   2016-12-10 12:11:30
  * @Last Modified by:   luofengda
- * @Last Modified time: 2016-12-10 16:32:19
+ * @Last Modified time: 2016-12-10 21:03:00
  */
 
 (function(angular) {
@@ -53,22 +53,14 @@
         //  2 使用$watch
         $scope.isCheckeAll = false;
         $scope.selectAll = function() {
-          TodoServer.selectAll($scope.isCheckeAll );
+          TodoServer.selectAll($scope.isCheckeAll);
         };
 
 
         
-        // // 优化：同步了单个点击的时候 总按钮的是否被选中的bug
+        // // 优化：同步了单个点击的时候 总按钮的是否被选中的bug  同时 新增了 保存的功能
         $scope.isCheckbox = function() {
-            for (var i = 0; i < $scope.todolist.length; i++) {
-                if (!$scope.todolist[i].isCompleted) {
-                    $scope.isCheckeAll = false;
-                    return;
-                }
-                if ($scope.todolist[i].isCompleted) {
-                    $scope.isCheckeAll = true;
-                }
-            }
+           $scope.isCheckeAll=TodoServer.isCheckbox($scope.isCheckeAll);
         }
 
 

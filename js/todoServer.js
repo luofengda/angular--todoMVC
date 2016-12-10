@@ -2,7 +2,7 @@
  * @Author: luofengda
  * @Date:   2016-12-10 12:11:45
  * @Last Modified by:   luofengda
- * @Last Modified time: 2016-12-10 16:30:53
+ * @Last Modified time: 2016-12-10 21:02:50
  */
 
 (function(angular) {
@@ -72,6 +72,17 @@
             }
             this.saveData();
         };
+        // 同步了单个点击的时候 总按钮的是否被选中的bug  同时 新增了 保存的功能
+        this.isCheckbox=function(isCheckeAll){
+            // var  isCheckeAll=false;
+             for (var i = 0; i < todolist.length; i++) {
+                if (!todolist[i].isCompleted) {
+                    isCheckeAll = false;
+                    this.saveData();
+                }
+            }
+             return isCheckeAll;
+        }
 
         // Clear completed删除已完成的任务
         this.clearCompleted=function(){
