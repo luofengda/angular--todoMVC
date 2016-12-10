@@ -3,7 +3,7 @@
     //创建模块
     var app = angular.module('todoApp', []);
     //创建控制器
-    app.controller('TodoController', ['$scope', function($scope) {
+    app.controller('TodoController', ['$scope','$location', function($scope,$location) {
         // 任务一：展示列表功能
         // 思路：
         //      创建一个数据列表，然后通过 ng-repeat 指令将数据进行展示
@@ -69,24 +69,24 @@
         //     };
         // });
         $scope.selectAll = function() {
-            console.log($scope.isCheckeAll );
+            console.log($scope.isCheckeAll);
             for (var i = 0; i < $scope.todolist.length; i++) {
                 $scope.todolist[i].isCompleted = $scope.isCheckeAll;
             }
         };
         // 优化：同步了单个点击的时候 总按钮的是否被选中的bug
-        $scope.isCheckbox=function(){
-             for (var i = 0; i < $scope.todolist.length; i++) {
-                if ( !$scope.todolist[i].isCompleted) {
+        $scope.isCheckbox = function() {
+            for (var i = 0; i < $scope.todolist.length; i++) {
+                if (!$scope.todolist[i].isCompleted) {
                     $scope.isCheckeAll = false;
                     return;
                 }
-                 if ( $scope.todolist[i].isCompleted) {
+                if ($scope.todolist[i].isCompleted) {
                     $scope.isCheckeAll = true;
                 }
             }
         }
-       
+
 
         // 任务六 Clear completed删除已完成的任务
         // 思路 将状态为true的列表删除，
@@ -127,19 +127,39 @@
         //    使用过滤器过滤东西
         //   filter使用过滤器
         //   status对应的是{isCompleted:false}过滤的条件
-        $scope.status={};
-        $scope.checkAll=function(){
-            $scope.status={};
-        }
-         $scope.checkActive=function(){
-            $scope.status={isCompleted:false};
-        }
+        $scope.status = {};
+        // $scope.checkAll = function() {
+        //     $scope.status = {};
+        // };
+        // $scope.checkActive = function() {
+        //     $scope.status = { isCompleted: false };
+        // };
 
-    $scope.checkCompleted=function(){
-            $scope.status={isCompleted:true};
-        }
-
-
+        // $scope.checkCompleted = function() {
+        //     $scope.status = { isCompleted: true };
+        // };
+        // 任务十：根据url变化显示相应的任务
+        //      思路:使用$watch来监视 location。url
+        $scope.location = $location;
+        $scope.$watch('location.url()', function(newValue, oldValue) {
+            // 因为每次刷新页面的时候，锚点值没有发生变化，
+            // 新旧数据都是一样的，所以就直接返回，
+            // 并且默认将页面中的内容全部展示
+            switch (newValue) {
+                case '/':
+                    $scope.status = {};
+                    break;
+                case '/active':
+                    $scope.status = {isCompleted:false};
+                    break;
+                case '/completed':
+                    $scope.status = {isCompleted:true};
+                    break;
+                default:
+                    $scope.status = {};
+                    break;
+            }
+        })
 
     }])
 
