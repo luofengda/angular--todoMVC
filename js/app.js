@@ -123,7 +123,21 @@
             };
             return count;
         };
+        // 任务九：
+        //    使用过滤器过滤东西
+        //   filter使用过滤器
+        //   status对应的是{isCompleted:false}过滤的条件
+        $scope.status={};
+        $scope.checkAll=function(){
+            $scope.status={};
+        }
+         $scope.checkActive=function(){
+            $scope.status={isCompleted:false};
+        }
 
+    $scope.checkCompleted=function(){
+            $scope.status={isCompleted:true};
+        }
 
 
 
