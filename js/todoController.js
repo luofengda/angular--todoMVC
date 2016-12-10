@@ -2,23 +2,24 @@
 * @Author: luofengda
 * @Date:   2016-12-10 12:11:30
 * @Last Modified by:   luofengda
-* @Last Modified time: 2016-12-10 12:17:45
+* @Last Modified time: 2016-12-10 15:12:42
 */
 
 (function(angular){
 	//因为没有模板，需要我们手动的来创建模板
 	//创建控制器
-    angular.module('todoApp.Controller',[]).controller('TodoController', ['$scope','$location', function($scope,$location) {
+    angular.module('todoApp.Controller',[]).controller('TodoController', ['$scope','$location','TodoServer', function($scope,$location,TodoServer) {
         // 任务一：展示列表功能
         // 思路：
         //      创建一个数据列表，然后通过 ng-repeat 指令将数据进行展示
-        $scope.todolist = [
-            { id: 1, name: '张三', isCompleted: false },
-            { id: 2, name: '李四', isCompleted: true },
-            { id: 3, name: 'html', isCompleted: false },
-            { id: 4, name: 'angular', isCompleted: true }
+        // $scope.todolist = [
+        //     { id: 1, name: '张三', isCompleted: false },
+        //     { id: 2, name: '李四', isCompleted: true },
+        //     { id: 3, name: 'html', isCompleted: false },
+        //     { id: 4, name: 'angular', isCompleted: true }
 
-        ];
+        // ];  
+         $scope.todolist = TodoServer.getData();
         // 任务二：
         // 思路：
         //      获取数据添加到todolist
