@@ -1,14 +1,14 @@
 /*
-* @Author: luofengda
-* @Date:   2016-12-10 12:11:30
-* @Last Modified by:   luofengda
-* @Last Modified time: 2016-12-10 15:12:42
-*/
+ * @Author: luofengda
+ * @Date:   2016-12-10 12:11:30
+ * @Last Modified by:   luofengda
+ * @Last Modified time: 2016-12-10 15:58:50
+ */
 
-(function(angular){
-	//因为没有模板，需要我们手动的来创建模板
-	//创建控制器
-    angular.module('todoApp.Controller',[]).controller('TodoController', ['$scope','$location','TodoServer', function($scope,$location,TodoServer) {
+(function(angular) {
+    //因为没有模板，需要我们手动的来创建模板
+    //创建控制器
+    angular.module('todoApp.Controller', []).controller('TodoController', ['$scope', '$location', 'TodoServer', function($scope, $location, TodoServer) {
         // 任务一：展示列表功能
         // 思路：
         //      创建一个数据列表，然后通过 ng-repeat 指令将数据进行展示
@@ -19,39 +19,23 @@
         //     { id: 4, name: 'angular', isCompleted: true }
 
         // ];  
-         $scope.todolist = TodoServer.getData();
+        $scope.todolist = TodoServer.getData();
         // 任务二：
         // 思路：
         //      获取数据添加到todolist
         $scope.newTask = '';
         $scope.add = function() {
-            var id = 0;
-            // 将数据添加
             if (!$scope.newTask) {
                 return;
             };
-            // id解决方法
-            // 取出数据中最后一条ID，然后加+1
-            if ($scope.todolist.length === 0) {
-                id = 1;
-            } else {
-                id = $scope.todolist[$scope.todolist.length - 1].id + 1;
-            }
-            $scope.todolist.push({ id: id, name: $scope.newTask, isCompleted: false });
+            TodoServer.addData($scope.newTask);
             $scope.newTask = '';
-            console.log(id);
         };
         // 任务三
         //删除一条任务 
 
         $scope.remove = function(id) {
-            for (var i = 0; i < $scope.todolist.length; i++) {
-                var temp = $scope.todolist[i];
-                if (temp.id === id) {
-                    $scope.todolist.splice(i, 1);
-                    return;
-                };
-            };
+            TodoServer.removeData(id);
         };
         // 任务四
         // 双击修改列表数据信息
@@ -61,6 +45,7 @@
         };
         $scope.save = function() {
             $scope.updateId = -1;
+            TodoServer.saveData();
         };
         // 任务五 两种解决方法
         //  1 绑定单击事件
@@ -156,10 +141,10 @@
                     $scope.status = {};
                     break;
                 case '/active':
-                    $scope.status = {isCompleted:false};
+                    $scope.status = { isCompleted: false };
                     break;
                 case '/completed':
-                    $scope.status = {isCompleted:true};
+                    $scope.status = { isCompleted: true };
                     break;
                 default:
                     $scope.status = {};
