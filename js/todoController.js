@@ -2,13 +2,25 @@
  * @Author: luofengda
  * @Date:   2016-12-10 12:11:30
  * @Last Modified by:   luofengda
- * @Last Modified time: 2016-12-10 21:03:00
+ * @Last Modified time: 2016-12-11 17:24:27
  */
 
 (function(angular) {
     //因为没有模板，需要我们手动的来创建模板
-    //创建控制器
-    angular.module('todoApp.Controller', []).controller('TodoController', ['$scope', '$location', 'TodoServer', function($scope, $location, TodoServer) {
+    //创建控制器   这里的控制器使用的 路由来管理
+    //
+    //创建路由
+    var  todoApp= angular.module('todoApp.Controller', ['ngRoute']);
+    todoApp.config(['$routeProvider',function($routeProvider) {
+        $routeProvider.when('/:status?',{
+            templateUrl:'todoView.html',
+            controller:'TodoController'
+        });
+        
+    }]);
+    
+   todoApp.controller('TodoController', ['$scope', '$location','$routeParams', 'TodoServer',
+    function($scope, $location, $routeParams,TodoServer) {
         // 任务一：展示列表功能
         // 思路：
         //      创建一个数据列表，然后通过 ng-repeat 指令将数据进行展示
@@ -97,7 +109,7 @@
         //    使用过滤器过滤东西
         //   filter使用过滤器
         //   status对应的是{isCompleted:false}过滤的条件
-        $scope.status = {};
+        // $scope.status = {};
         // $scope.checkAll = function() {
         //     $scope.status = {};
         // };
@@ -110,26 +122,41 @@
         // };
         // 任务十：根据url变化显示相应的任务
         //      思路:使用$watch来监视 location。url
-        $scope.location = $location;
-        $scope.$watch('location.url()', function(newValue, oldValue) {
-            // 因为每次刷新页面的时候，锚点值没有发生变化，
-            // 新旧数据都是一样的，所以就直接返回，
-            // 并且默认将页面中的内容全部展示
-            switch (newValue) {
-                case '/':
-                    $scope.status = {};
-                    break;
-                case '/active':
-                    $scope.status = { isCompleted: false };
-                    break;
-                case '/completed':
-                    $scope.status = { isCompleted: true };
-                    break;
-                default:
-                    $scope.status = {};
-                    break;
-            }
-        })
+        // $scope.location = $location;
+        // $scope.$watch('location.url()', function(newValue, oldValue) {
+        //     // 因为每次刷新页面的时候，锚点值没有发生变化，
+        //     // 新旧数据都是一样的，所以就直接返回，
+        //     // 并且默认将页面中的内容全部展示
+        //     switch (newValue) {
+        //         case '/':
+        //             $scope.status = {};
+        //             break;
+        //         case '/active':
+        //             $scope.status = { isCompleted: false };
+        //             break;
+        //         case '/completed':
+        //             $scope.status = { isCompleted: true };
+        //             break;
+        //         default:
+        //             $scope.status = {};
+        //             break;
+        //     }
+        // });
+        // 使用路由来控制展示不同的额内容
+        switch($routeParams.status){
+            case '':
+                $scope.status= {};
+                break;
+            case 'active':
+               $scope.status = { isCompleted: false };
+               break;
+            case 'completed':
+               $scope.status = { isCompleted: true };
+               break;
+            default:
+                 $scope.status= {};
+                break;
+        }
 
     }])
 })(angular)
